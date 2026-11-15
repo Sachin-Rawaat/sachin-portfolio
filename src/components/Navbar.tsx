@@ -35,23 +35,27 @@ export function Navbar() {
 
   const menuVariants = {
     open: {
-      clipPath: "circle(1500px at 90% 5%)",
-      transition: { type: "spring", stiffness: 20, restDelta: 2 },
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: { duration: 0.22, ease: [0.16, 1, 0.3, 1] },
     },
     closed: {
-      clipPath: "circle(0px at 90% 5%)",
-      transition: { type: "spring", stiffness: 400, damping: 40 },
+      opacity: 0,
+      y: -16,
+      scale: 0.98,
+      transition: { duration: 0.18, ease: "easeIn" },
     },
   };
 
   const navListVariants = {
-    open: { transition: { staggerChildren: 0.07, delayChildren: 0.2 } },
-    closed: { transition: { staggerChildren: 0.05, staggerDirection: -1 } },
+    open: { transition: { staggerChildren: 0.05, delayChildren: 0.08 } },
+    closed: { transition: { staggerChildren: 0.03, staggerDirection: -1 } },
   };
 
   const navItemVariants = {
-    open: { y: 0, opacity: 1, transition: { y: { stiffness: 1000, velocity: -100 } } },
-    closed: { y: 50, opacity: 0, transition: { y: { stiffness: 1000 } } },
+    open: { y: 0, opacity: 1, transition: { duration: 0.22, ease: "easeOut" } },
+    closed: { y: 15, opacity: 0, transition: { duration: 0.15 } },
   };
 
   return (
@@ -133,7 +137,7 @@ export function Navbar() {
         )}
       </AnimatePresence>
 
-      {/* Mobile Full-Screen Menu with Circular ClipPath */}
+      {/* Mobile Full-Screen Menu with Butter-Smooth Hardware Acceleration */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -141,14 +145,14 @@ export function Navbar() {
             animate="open"
             exit="closed"
             variants={menuVariants}
-            className="fixed inset-0 z-40 bg-background/95 backdrop-blur-3xl flex flex-col items-center justify-center p-8 md:hidden"
+            className="fixed inset-0 z-40 bg-background/95 backdrop-blur-xl flex flex-col items-center justify-center p-8 md:hidden transform-gpu"
           >
-            <motion.ul variants={navListVariants} className="flex flex-col items-center space-y-8">
+            <motion.ul variants={navListVariants} className="flex flex-col items-center space-y-7">
               {portfolioContent.navItems.map((item, idx) => (
                 <motion.li key={idx} variants={navItemVariants}>
                   <a
                     onClick={() => scrollTo(item.href)}
-                    className="text-3xl font-extrabold text-foreground hover:text-primary transition-colors cursor-pointer"
+                    className="text-3xl font-extrabold text-foreground hover:text-primary transition-colors cursor-pointer py-1 block"
                   >
                     {item.name}
                   </a>

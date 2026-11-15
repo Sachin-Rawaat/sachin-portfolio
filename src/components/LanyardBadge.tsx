@@ -265,8 +265,11 @@ export function LanyardBadge({
 
   const handlePointerDown = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
-      e.currentTarget.setPointerCapture(e.pointerId);
-      isDragging.current = true;
+      // On mouse desktop, allow full drag capture. On touch, allow native vertical scroll gestures
+      if (e.pointerType === "mouse") {
+        e.currentTarget.setPointerCapture(e.pointerId);
+        isDragging.current = true;
+      }
       startX.current = e.clientX;
       startAngle.current = physics.current.angle;
       lastAngle.current = physics.current.angle;
@@ -292,7 +295,9 @@ export function LanyardBadge({
 
   const handlePointerUp = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
-      e.currentTarget.releasePointerCapture(e.pointerId);
+      if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+        e.currentTarget.releasePointerCapture(e.pointerId);
+      }
       isDragging.current = false;
     },
     []
@@ -314,7 +319,7 @@ export function LanyardBadge({
   const degrees = angle * (180 / Math.PI);
 
   return (
-    <div className="flex flex-col items-center select-none" style={{ touchAction: "none" }}>
+    <div className="flex flex-col items-center select-none" style={{ touchAction: "pan-y" }}>
       {/* Sleek Minimalist Matte Black Anchor Pin */}
       <div className="w-3.5 h-3.5 rounded-full shadow-md z-10 relative bg-zinc-900 border border-zinc-700/80 flex items-center justify-center">
         <div className="w-1.5 h-1.5 rounded-full bg-zinc-950" />

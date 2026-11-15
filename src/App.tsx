@@ -85,14 +85,14 @@ export default function App() {
       {/* Universal Butter-Smooth Custom Cursor for Mobile, Laptop & Desktop */}
       <CustomCursor glowEffect={true} showTrail={true} trailLength={4} size={22} />
 
-      {/* Lenis Butter-Smooth Scroll container with touch optimization */}
+      {/* Lenis Butter-Smooth Scroll container with native touch momentum on mobile */}
       <ReactLenis
         root
         options={{
           smoothWheel: true,
-          duration: 1.2,
+          duration: 1.1,
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-          touchMultiplier: 1.5,
+          syncTouch: false,
           wheelMultiplier: 1,
         }}
       >

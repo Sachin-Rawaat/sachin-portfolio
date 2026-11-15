@@ -43,15 +43,16 @@ export function CustomCursor({
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    // Detect if primary input is touch
-    const checkTouch = () => {
-      return (
-        "ontouchstart" in window ||
-        navigator.maxTouchPoints > 0 ||
-        window.matchMedia("(pointer: coarse)").matches
-      );
-    };
-    setIsTouchDevice(checkTouch());
+    // Detect if primary input is touch - on touch/mobile devices, disable custom cursor to preserve 120Hz native touch scroll performance
+    const isTouch =
+      "ontouchstart" in window ||
+      navigator.maxTouchPoints > 0 ||
+      window.matchMedia("(pointer: coarse)").matches;
+
+    if (isTouch) {
+      setIsTouchDevice(true);
+      return;
+    }
 
     const checkMagnetic = (x: number, y: number) => {
       // Keep magnetic search lightweight
@@ -215,7 +216,7 @@ export function CustomCursor({
     magneticElements,
   ]);
 
-  if (!isVisible) return null;
+  if (isTouchDevice || !isVisible) return null;
 
   return (
     <>
