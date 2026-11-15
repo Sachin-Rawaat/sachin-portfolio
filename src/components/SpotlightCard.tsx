@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useCallback } from "react";
+import { motion, useMotionValue, useMotionTemplate } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface SpotlightCardProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -19,80 +20,65 @@ export function SpotlightCard({
   gradientTo = "#38bdf8",
   ...props
 }: SpotlightCardProps) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState({ x: -gradientSize, y: -gradientSize });
-  const [isHovered, setIsHovered] = useState(false);
-  const [canHover, setCanHover] = useState(false);
+  const mouseX = useMotionValue(-gradientSize);
+  const mouseY = useMotionValue(-gradientSize);
 
-  useEffect(() => {
-    // Only enable hover spotlight on devices that actually support mouse hover (laptops / desktops)
-    // Touchscreens/mobile will never trigger on tap
-    if (typeof window !== "undefined") {
-      setCanHover(window.matchMedia("(hover: hover) and (pointer: fine)").matches);
-    }
-  }, []);
+  const updateCoordinates = useCallback(
+    (clientX: number, clientY: number, currentTarget: HTMLElement) => {
+      const { left, top } = currentTarget.getBoundingClientRect();
+      mouseX.set(clientX - left);
+      mouseY.set(clientY - top);
+    },
+    [mouseX, mouseY]
+  );
 
-  const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!canHover || !cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-    setIsHovered(true);
-  };
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      updateCoordinates(e.clientX, e.clientY, e.currentTarget);
+    },
+    [updateCoordinates]
+  );
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!canHover || !cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-    if (!isHovered) setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
+  const handleReset = useCallback(() => {
+    mouseX.set(-gradientSize);
+    mouseY.set(-gradientSize);
+  }, [mouseX, mouseY, gradientSize]);
 
   return (
     <div
-      ref={cardRef}
-      onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
+      onMouseLeave={handleReset}
       className={cn(
         "group relative flex flex-col justify-between rounded-3xl border border-border/80 bg-card/90 backdrop-blur-md p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-2xl hover:-translate-y-1.5 overflow-hidden",
         className
       )}
       {...props}
     >
-      {/* 1. Subtle Original Ambient Glow (Only on real mouse hover, never on mobile tap) */}
-      {canHover && (
-        <div
-          className={cn(
-            "pointer-events-none absolute -inset-px rounded-3xl transition-opacity duration-300 z-0",
-            isHovered ? "opacity-100" : "opacity-0"
-          )}
-          style={{
-            background: `radial-gradient(${gradientSize}px circle at ${position.x}px ${position.y}px, ${gradientColor}, transparent 75%)`,
-          }}
-        />
-      )}
-
-      {/* 2. Original Border Stroke Highlight (Only on real mouse hover, never on mobile tap) */}
-      {canHover && (
-        <div
-          className={cn(
-            "pointer-events-none absolute -inset-px rounded-3xl transition-opacity duration-300 z-0",
-            isHovered ? "opacity-100" : "opacity-0"
-          )}
-          style={{
-            background: `radial-gradient(${gradientSize}px circle at ${position.x}px ${position.y}px, ${gradientFrom}, ${gradientTo}, transparent 70%)`,
-            maskImage: "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
-            WebkitMaskImage: "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
-            maskComposite: "exclude",
-            WebkitMaskComposite: "xor",
-            padding: "1.5px",
-          }}
-        />
-      )}
-
+      {/* Radial subtle background glow */}
+      <motion.div
+        className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-300 group-hover:opacity-100 z-0"
+        style={{
+          background: useMotionTemplate`
+            radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px, ${gradientColor}, transparent 75%)
+          `,
+        }}
+      />
+      {/* Radial border stroke highlight */}
+      <motion.div
+        className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-300 group-hover:opacity-100 z-0"
+        style={{
+          background: useMotionTemplate`
+            radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px, ${gradientFrom}, ${gradientTo}, transparent 70%)
+          `,
+          maskImage:
+            "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+          WebkitMaskImage:
+            "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+          maskComposite: "exclude",
+          WebkitMaskComposite: "xor",
+          padding: "1.5px",
+        }}
+      />
       <div className="relative z-10 w-full flex flex-col h-full justify-between">
         {children}
       </div>
