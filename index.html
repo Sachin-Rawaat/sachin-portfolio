@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en" data-theme="dark" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sachin Rawat | Software Engineer & AI Engineer</title>
+    <meta name="description" content="Portfolio of Sachin Rawat — Software Engineer & AI Engineer specializing in high-performance full-stack web applications and intelligent AI solutions." />
+    <meta name="keywords" content="Sachin Rawat, Software Engineer, AI Engineer, Full-Stack Developer, React, Next.js, Python, TypeScript, Portfolio" />
+    <meta name="author" content="Sachin Rawat" />
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Sachin Rawat | Software Engineer & AI Engineer" />
+    <meta property="og:description" content="Building high-performance full-stack web applications and intelligent AI systems." />
+    <meta property="og:image" content="/assets/sachin-rawat.jpg" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Sachin Rawat | Software Engineer & AI Engineer" />
+    <meta name="twitter:description" content="Building high-performance full-stack web applications and intelligent AI systems." />
+    <meta name="twitter:image" content="/assets/sachin-rawat.jpg" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <script>
+      (function() {
+        try {
+          var stored = localStorage.getItem('theme');
+          var theme = stored === 'light' ? 'light' : 'dark';
+          document.documentElement.classList.add(theme);
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {
+          document.documentElement.classList.add('dark');
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-background text-foreground selection:bg-primary/30 selection:text-primary-foreground min-h-screen">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
