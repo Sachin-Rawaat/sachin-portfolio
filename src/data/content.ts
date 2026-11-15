@@ -108,7 +108,7 @@ export const portfolioContent = {
     },
     socials: [
       { platform: "twitter", href: "https://x.com/home", label: "Twitter" },
-      { platform: "github", href: "https://github.com/#", label: "GitHub" },
+      { platform: "github", href: "https://github.com/Sachin-Rawaat", label: "GitHub" },
       { platform: "linkedin", href: "https://www.linkedin.com/feed/", label: "LinkedIn" },
     ],
   },

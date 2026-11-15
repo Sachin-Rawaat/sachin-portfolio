@@ -35,7 +35,7 @@ Ensure you have **Node.js 18+** and **npm** installed.
 
 ```bash
 # Clone the repository
-git clone https://github.com/<your-username>/portfolio-website.git
+git clone https://github.com/Sachin-Rawaat/sachin-portfolio.git
 
 # Navigate to project directory
 cd portfolio-website
