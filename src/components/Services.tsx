@@ -110,6 +110,32 @@ const iconComponentMap: Record<string, () => React.JSX.Element> = {
   cloud: Icon3DCloudDevOps,
 };
 
+const serviceCardGradients: Record<
+  string,
+  { glow: string; from: string; to: string }
+> = {
+  fullstack: {
+    glow: "rgba(56, 189, 248, 0.42) 0%, rgba(139, 92, 246, 0.3) 45%",
+    from: "#38bdf8",
+    to: "#8b5cf6",
+  },
+  "software-eng": {
+    glow: "rgba(168, 85, 247, 0.42) 0%, rgba(99, 102, 241, 0.3) 45%",
+    from: "#c084fc",
+    to: "#818cf8",
+  },
+  "ai-eng": {
+    glow: "rgba(52, 211, 153, 0.42) 0%, rgba(6, 182, 212, 0.3) 45%",
+    from: "#34d399",
+    to: "#22d3ee",
+  },
+  "cloud-devops": {
+    glow: "rgba(56, 189, 248, 0.42) 0%, rgba(251, 191, 36, 0.3) 45%",
+    from: "#38bdf8",
+    to: "#fbbf24",
+  },
+};
+
 export function Services() {
   const { services } = portfolioContent;
 
@@ -135,6 +161,11 @@ export function Services() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {services.items.map((item, idx) => {
           const RenderIcon = iconComponentMap[item.iconName] || Icon3DFullStack;
+          const gradientConfig = serviceCardGradients[item.id] || {
+            glow: "rgba(56, 189, 248, 0.42) 0%, rgba(139, 92, 246, 0.3) 45%",
+            from: "#38bdf8",
+            to: "#8b5cf6",
+          };
 
           return (
             <motion.div
@@ -144,7 +175,12 @@ export function Services() {
               transition={{ delay: idx * 0.1, duration: 0.5 }}
               viewport={{ once: true, amount: 0.1 }}
             >
-              <SpotlightCard className="h-full p-8 rounded-[2rem] border border-border/80 bg-card/80">
+              <SpotlightCard
+                className="h-full p-8 rounded-[2rem] border border-border/80 bg-card/80"
+                glowColors={gradientConfig.glow}
+                gradientFrom={gradientConfig.from}
+                gradientTo={gradientConfig.to}
+              >
                 <div className="flex flex-col h-full justify-between gap-6">
                   <div>
                     {/* Top Row: 3D Icon + Domain Badge */}
