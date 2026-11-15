@@ -243,13 +243,13 @@ export function Projects() {
                 )}
 
                 {/* Progress Callout */}
-                <div className="flex items-start gap-3 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-200 text-xs sm:text-sm leading-relaxed">
-                  <Clock className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+                <div className="flex items-start gap-3 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-xs sm:text-sm leading-relaxed">
+                  <Clock className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-semibold text-amber-300 mb-0.5">
+                    <p className="font-bold text-amber-900 dark:text-amber-300 text-sm mb-1">
                       Under Active Engineering
                     </p>
-                    <p className="text-amber-200/80">
+                    <p className="text-amber-900/80 dark:text-amber-200/90 font-medium">
                       I am currently coding and fine-tuning this system. Full live demo, case study, and GitHub repository will be published upon milestone completion.
                     </p>
                   </div>

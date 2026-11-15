@@ -196,7 +196,7 @@ export function Contact() {
                   required
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full rounded-xl py-3.5 px-4 bg-[#12131a] border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-sm font-medium [color-scheme:dark]"
+                  className="w-full rounded-xl py-3.5 px-4 bg-muted/70 dark:bg-[#12131a] border border-black/10 dark:border-white/10 text-foreground dark:text-white placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-sm font-medium"
                 />
               </div>
 
@@ -211,7 +211,7 @@ export function Contact() {
                   required
                   value={formData.phone}
                   onChange={handleChange}
-                  className="w-full rounded-xl py-3.5 px-4 bg-[#12131a] border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-sm font-medium [color-scheme:dark]"
+                  className="w-full rounded-xl py-3.5 px-4 bg-muted/70 dark:bg-[#12131a] border border-black/10 dark:border-white/10 text-foreground dark:text-white placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-sm font-medium"
                 />
               </div>
 
@@ -226,7 +226,7 @@ export function Contact() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full rounded-xl py-3.5 px-4 bg-[#12131a] border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-sm font-medium [color-scheme:dark]"
+                  className="w-full rounded-xl py-3.5 px-4 bg-muted/70 dark:bg-[#12131a] border border-black/10 dark:border-white/10 text-foreground dark:text-white placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-sm font-medium"
                 />
               </div>
 
@@ -241,7 +241,7 @@ export function Contact() {
                   value={formData.projectType}
                   onChange={handleChange}
                   placeholder="e.g. E-Commerce, Portfolio, Business Website, Web App"
-                  className="w-full rounded-xl py-3.5 px-4 bg-[#12131a] border border-white/10 text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-sm font-medium [color-scheme:dark]"
+                  className="w-full rounded-xl py-3.5 px-4 bg-muted/70 dark:bg-[#12131a] border border-black/10 dark:border-white/10 text-foreground dark:text-white placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-sm font-medium"
                 />
               </div>
 
@@ -256,7 +256,7 @@ export function Contact() {
                   required
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full rounded-xl py-3.5 px-4 bg-[#12131a] border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-sm font-medium resize-none [color-scheme:dark]"
+                  className="w-full rounded-xl py-3.5 px-4 bg-muted/70 dark:bg-[#12131a] border border-black/10 dark:border-white/10 text-foreground dark:text-white placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-sm font-medium resize-none"
                 />
               </div>
 
