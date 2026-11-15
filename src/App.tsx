@@ -18,32 +18,11 @@ import { FloatingDock } from "@/components/FloatingDock";
 function PortfolioShell() {
   const [showDock, setShowDock] = useState(false);
 
-  // Both useLenis and window scroll listener for maximum reliability
-  useLenis(({ scroll, velocity }) => {
-    const isPastThreshold = scroll > window.innerHeight * 0.35;
-    if (isPastThreshold && velocity >= 0) {
-      setShowDock(true);
-    } else if (scroll < window.innerHeight * 0.35) {
-      setShowDock(false);
-    }
+  // Single clean scroll tracker for floating dock
+  useLenis(({ scroll }) => {
+    const isPast = scroll > window.innerHeight * 0.4;
+    setShowDock(isPast);
   });
-
-  useEffect(() => {
-    let prevY = window.scrollY;
-    const handleScroll = () => {
-      const currentY = window.scrollY;
-      const isPast = currentY > window.innerHeight * 0.35;
-      if (isPast && currentY >= prevY) {
-        setShowDock(true);
-      } else if (currentY < window.innerHeight * 0.35) {
-        setShowDock(false);
-      }
-      prevY = currentY;
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
     <>

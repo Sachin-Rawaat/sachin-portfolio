@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { motion, useMotionValue, useMotionTemplate } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -14,12 +14,13 @@ interface SpotlightCardProps extends React.HTMLAttributes<HTMLDivElement> {
 export function SpotlightCard({
   children,
   className,
-  gradientSize = 280,
-  gradientColor = "rgba(139, 92, 246, 0.12)",
+  gradientSize = 340,
+  gradientColor = "rgba(139, 92, 246, 0.22)",
   gradientFrom = "#8b5cf6",
   gradientTo = "#38bdf8",
   ...props
 }: SpotlightCardProps) {
+  const [isHovered, setIsHovered] = useState(false);
   const mouseX = useMotionValue(-gradientSize);
   const mouseY = useMotionValue(-gradientSize);
 
@@ -32,51 +33,56 @@ export function SpotlightCard({
     [mouseX, mouseY]
   );
 
+  const handleMouseEnter = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      updateCoordinates(e.clientX, e.clientY, e.currentTarget);
+      setIsHovered(true);
+    },
+    [updateCoordinates]
+  );
+
   const handleMouseMove = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       updateCoordinates(e.clientX, e.clientY, e.currentTarget);
+      if (!isHovered) setIsHovered(true);
     },
-    [updateCoordinates]
+    [updateCoordinates, isHovered]
   );
 
-  const handleTouchMove = useCallback(
-    (e: React.TouchEvent<HTMLDivElement>) => {
-      if (e.touches.length > 0) {
-        updateCoordinates(e.touches[0].clientX, e.touches[0].clientY, e.currentTarget);
-      }
-    },
-    [updateCoordinates]
-  );
-
-  const handleReset = useCallback(() => {
-    mouseX.set(-gradientSize);
-    mouseY.set(-gradientSize);
-  }, [mouseX, mouseY, gradientSize]);
+  const handleMouseLeave = useCallback(() => {
+    setIsHovered(false);
+  }, []);
 
   return (
     <div
+      onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
-      onMouseLeave={handleReset}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleReset}
+      onMouseLeave={handleMouseLeave}
       className={cn(
-        "group relative flex flex-col justify-between rounded-3xl border border-border/80 bg-card/90 backdrop-blur-md p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-2xl hover:-translate-y-1.5 overflow-hidden cursor-pointer",
+        "group relative flex flex-col justify-between rounded-3xl border border-border/80 bg-card/90 backdrop-blur-md p-6 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-2xl hover:-translate-y-1.5 overflow-hidden",
         className
       )}
       {...props}
     >
-      {/* Radial subtle background glow */}
+      {/* Radial subtle background glow on hover */}
       <motion.div
-        className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-active:opacity-100 z-0"
+        className={cn(
+          "pointer-events-none absolute -inset-px rounded-3xl transition-opacity duration-300 z-0",
+          isHovered ? "opacity-100" : "opacity-0"
+        )}
         style={{
           background: useMotionTemplate`
             radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px, ${gradientColor}, transparent 75%)
           `,
         }}
       />
-      {/* Radial border stroke highlight */}
+
+      {/* Radial border stroke highlight on hover */}
       <motion.div
-        className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-active:opacity-100 z-0"
+        className={cn(
+          "pointer-events-none absolute -inset-px rounded-3xl transition-opacity duration-300 z-0",
+          isHovered ? "opacity-100" : "opacity-0"
+        )}
         style={{
           background: useMotionTemplate`
             radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px, ${gradientFrom}, ${gradientTo}, transparent 70%)
@@ -90,6 +96,7 @@ export function SpotlightCard({
           padding: "1.5px",
         }}
       />
+
       <div className="relative z-10 w-full flex flex-col h-full justify-between">
         {children}
       </div>
